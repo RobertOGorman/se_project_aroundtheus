@@ -43,7 +43,7 @@ const profileTitleEl = document.querySelector(".profile__title");
 const cardListEl = document.querySelector(".cards__array");
 const previewPopup = document.querySelector(".popup__preview")
 const previewPopupImg = previewPopup.querySelector(".popup__preview-image")
-const popupText = previewPopup.querySelector("popup__preview-text")
+const popupText = previewPopup.querySelector(".popup__preview-text")
 
 const cardAddPopup = document.querySelector("#add-popup");
 const cardAddButton = document.querySelector("#add-button");
@@ -86,12 +86,17 @@ function getCardView(cardData) {
   // replace title
   cardTitle.textContent = cardData.name;
   
-  
+//open preview popup
+imageEl.addEventListener("click", (event) => {
+  openPopup(previewPopup);
+  previewPopupImg.src = event.target.src;
+  popupText.textContent = cardData.name;
+});
 
   //add event listener for like button
   const cardLikeBtn = cardEl.querySelector(".cards__like-button");
   cardLikeBtn.addEventListener("click", () => {
-    //add active class to cardLikeBtn
+  //add active class to cardLikeBtn
     cardLikeBtn.classList.toggle("cards__like-button_active");
   });
 
@@ -103,28 +108,14 @@ function getCardView(cardData) {
   });
 
 
-  //open preview popup
-    imageEl.addEventListener("click", (event) => {
-      openPopup(previewPopup);
-      previewPopupImg.src = event.target.src;
-      popupText.textContent = cardData.name;
-  });
-  
   //close preview popup
   const closePreview = previewPopup.querySelector(".popup__close-button")
   closePreview.addEventListener("click", (event) => {
     closePopup(previewPopup);
   });
 
-    // replace alt with card title
-    // add close popup event listener
-  
-  
-  
-  
   return cardEl;
 }
-
 
 
 profileEditButton.addEventListener("click", () => {
@@ -178,5 +169,3 @@ initialCards.reverse().forEach((cardData) => {
   const cardView = getCardView(cardData);
   renderCard(cardView, cardListEl);
 });
-
-
