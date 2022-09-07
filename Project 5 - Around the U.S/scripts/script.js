@@ -41,7 +41,7 @@ const profileEditForm = document.querySelector("#edit-profile-form");
 const profileNameEl = document.querySelector(".profile__name");
 const profileTitleEl = document.querySelector(".profile__title");
 const cardListEl = document.querySelector(".cards__array");
-const previewPopup = document.querySelector(".popup__preview")
+const previewPopup = document.querySelector("#preview-popup")
 const previewPopupImg = previewPopup.querySelector(".popup__preview-image")
 const popupText = previewPopup.querySelector(".popup__preview-text")
 
