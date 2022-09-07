@@ -43,6 +43,7 @@ const profileTitleEl = document.querySelector(".profile__title");
 const cardListEl = document.querySelector(".cards__array");
 const previewPopup = document.querySelector(".popup__preview")
 const previewPopupImg = previewPopup.querySelector(".popup__preview-image")
+const popupText = previewPopup.querySelector("popup__preview-text")
 
 const cardAddPopup = document.querySelector("#add-popup");
 const cardAddButton = document.querySelector("#add-button");
@@ -84,6 +85,8 @@ function getCardView(cardData) {
   imageEl.alt = cardData.name;
   // replace title
   cardTitle.textContent = cardData.name;
+  
+  
 
   //add event listener for like button
   const cardLikeBtn = cardEl.querySelector(".cards__like-button");
@@ -100,11 +103,11 @@ function getCardView(cardData) {
   });
 
 
-  //add event listener image
-    // open popup
+  //open preview popup
     imageEl.addEventListener("click", (event) => {
       openPopup(previewPopup);
       previewPopupImg.src = event.target.src;
+      popupText.textContent = cardData.name;
   });
   
   //close preview popup
@@ -171,7 +174,9 @@ cardAddForm.addEventListener("submit", function (event) {
   closePopup(cardAddPopup)
 });
 
-initialCards.forEach(function (cardData) {
+initialCards.reverse().forEach((cardData) => {
   const cardView = getCardView(cardData);
   renderCard(cardView, cardListEl);
 });
+
+

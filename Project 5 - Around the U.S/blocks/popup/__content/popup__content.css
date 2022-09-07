@@ -4,7 +4,8 @@
     flex-direction: column;
     position: relative;
     width: 430px;
-    border-radius: 10px;
+    height: auto;
+    border-radius: 10px; 
     align-items: center;
 }
 
