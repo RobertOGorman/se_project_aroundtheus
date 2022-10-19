@@ -1,5 +1,5 @@
-export function openPopup() {
-  const popup = document.querySelector("#preview-popup");
+export function openPopup(popup) {
+  //const popup = document.querySelector("#preview-popup");
   popup.classList.add("popup_open");
   document.addEventListener("keyup", handleEscPress);
   document.addEventListener("click", closePopupOnRemoteClick);

@@ -38,7 +38,8 @@ class Card {
     imageElement.src = this._link;
     imageText.textContent = this._name;
     imageElement.alt = `Photo of ${this._name}`;
-    openPopup();
+    const popup = document.querySelector("#preview-popup");
+    openPopup(popup);
   }
 
   _getTemplate() {
