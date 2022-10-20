@@ -142,6 +142,7 @@ profileEditForm.addEventListener("submit", (event) => {
 });
 
 cardAddForm.addEventListener("submit", function (event) {
+  this.cardAddForm
   event.preventDefault();
   const name = event.target.name.value;
   const link = event.target.title.value;
