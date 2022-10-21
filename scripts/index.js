@@ -1,11 +1,6 @@
 import FormValidator from "./FormValidator.js";
 import Card from "./Card.js";
-import {
-  openPopup,
-  closePopup,
-  handleEscPress,
-  closePopupOnRemoteClick,
-} from "./utils.js";
+import { openPopup, closePopup } from "./utils.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                Cards Array                                 */
@@ -39,8 +34,11 @@ const initialCards = [
 ];
 
 /* -------------------------------------------------------------------------- */
-/*                                 Edit Popup                                 */
+/*                                  Variables                                 */
 /* -------------------------------------------------------------------------- */
+
+const cardListElement = document.querySelector(".cards__array");
+const previewPopup = document.querySelector("#preview-popup");
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 const profileEditPopup = document.querySelector("#edit-popup");
@@ -50,34 +48,35 @@ const profileEditCloseButton = profileEditPopup.querySelector(
 const profileEditForm = document.querySelector("#edit-profile-form");
 const profileNameElement = document.querySelector(".profile__name");
 const profileTitleElement = document.querySelector(".profile__title");
-const cardListElement = document.querySelector(".cards__array");
-const previewPopup = document.querySelector("#preview-popup");
-const previewPopupImage = previewPopup.querySelector(".popup__preview-image");
-const previewPopupText = previewPopup.querySelector(".popup__preview-text");
 
 const cardAddPopup = document.querySelector("#add-popup");
 const cardAddButton = document.querySelector("#add-button");
-const cardCloseButton = cardAddPopup.querySelector(".popup__close-button");
 const cardAddForm = document.querySelector("#add-card-form");
+const cardCloseButton = cardAddPopup.querySelector(".popup__close-button");
 
 const profileNameInput = document.querySelector(".popup__input_type_name");
 const profileTitleInput = document.querySelector(".popup__input_type_title");
 
 const cardSelector = "#card-template";
 
-//close preview popup
-const previewCloseButton = previewPopup.querySelector(".popup__close-button");
-previewCloseButton.addEventListener("click", (event) => {
-  closePopup(previewPopup);
-});
-
 /* -------------------------------------------------------------------------- */
 /*                                 Functions                                  */
 /* -------------------------------------------------------------------------- */
 
+//close preview popup
+const previewCloseButton = previewPopup.querySelector(".popup__close-button");
+previewCloseButton.addEventListener("click", () => {
+  closePopup(previewPopup);
+});
+
 function renderCard(cardElement, container) {
   //append to list
   container.prepend(cardElement);
+}
+
+function getCardView(cardData) {
+  const card = new Card(cardData, cardSelector);
+  return card.getView();
 }
 
 /* -------------------------------------------------------------------------- */
@@ -105,10 +104,9 @@ const addFormElement = document.querySelector("#add-card-form");
 const addFormValidator = new FormValidator(validationSettings, addFormElement);
 addFormValidator.enableValidation();
 
-function getCardView(cardData) {
-  const card = new Card(cardData, cardSelector);
-  return card.getView();
-}
+/* -------------------------------------------------------------------------- */
+/*                               Event Listeners                              */
+/* -------------------------------------------------------------------------- */
 
 profileEditButton.addEventListener("click", () => {
   profileNameInput.value = profileNameElement.textContent;
@@ -141,8 +139,7 @@ profileEditForm.addEventListener("submit", (event) => {
   closePopup(profileEditPopup);
 });
 
-cardAddForm.addEventListener("submit", function (event) {
-  this.cardAddForm
+cardAddForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const name = event.target.name.value;
   const link = event.target.title.value;
@@ -155,6 +152,10 @@ cardAddForm.addEventListener("submit", function (event) {
   cardAddForm.reset();
   addFormValidator.disableButton();
 });
+
+/* -------------------------------------------------------------------------- */
+/*                               Initialize Card                              */
+/* -------------------------------------------------------------------------- */
 
 initialCards.reverse().forEach((cardData) => {
   const cardView = getCardView(cardData);

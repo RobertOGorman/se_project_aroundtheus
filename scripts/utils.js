@@ -1,5 +1,4 @@
 export function openPopup(popup) {
-  //const popup = document.querySelector("#preview-popup");
   popup.classList.add("popup_open");
   document.addEventListener("keyup", handleEscPress);
   document.addEventListener("click", closePopupOnRemoteClick);
@@ -11,15 +10,15 @@ export function closePopup(popup) {
   document.removeEventListener("click", closePopupOnRemoteClick);
 }
 
-export function handleEscPress(e) {
-  if (e.key === "Escape") {
+function handleEscPress(event) {
+  if (event.key === "Escape") {
     const openedPopup = document.querySelector(".popup_open");
     closePopup(openedPopup);
   }
 }
 
-export function closePopupOnRemoteClick(evt) {
-  if (evt.target.classList.contains("popup")) {
-    closePopup(evt.target);
+function closePopupOnRemoteClick(event) {
+  if (event.target.classList.contains("popup")) {
+    closePopup(event.target);
   }
 }
