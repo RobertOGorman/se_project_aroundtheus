@@ -1,0 +1,23 @@
+{
+  "name": "se_project_aroundtheus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobertOGorman/se_project_aroundtheus.git"
+  },
+  "keywords": [],
+  "author": "Robert O'Gorman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RobertOGorman/se_project_aroundtheus/issues"
+  },
+  "homepage": "https://github.com/RobertOGorman/se_project_aroundtheus#readme",
+  "devDependencies": {
+    "webpack": "^5.74.0"
+  }
+}
