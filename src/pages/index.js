@@ -1,15 +1,24 @@
-import FormValidator from "./FormValidator.js";
-import Card from "./Card.js";
-import { openPopup, closePopup } from "./utils.js";
+import FormValidator from "../scripts/FormValidator.js";
+import Card from "../scripts/Card.js";
 import {
   previewPopup,
   validationSettings,
   profileEditButton,
-  profileEditCloseButton,
   initialCards,
   cardSelector,
-} from "./constants.js";
-
+  cardListElement,
+  profileNameInput,
+  profileNameElement,
+  profileTitleInput,
+  profileTitleElement,
+  profileEditPopup,
+  cardAddPopup,
+  cardAddButton,
+} from "../utils/constants.js";
+import "./index.css";
+import PopupWithForm from "../scripts/PopupWithForm.js";
+import UserInfo from "../scripts/UserInfo.js";
+import PopupWithImage from "../scripts/PopupWithImage.js";
 /* -------------------------------------------------------------------------- */
 /*                                 Functions                                  */
 /* -------------------------------------------------------------------------- */
@@ -17,7 +26,7 @@ import {
 //close preview popup
 const previewCloseButton = previewPopup.querySelector(".popup__close-button");
 previewCloseButton.addEventListener("click", () => {
-  closePopup(previewPopup);
+  close(previewPopup);
 });
 
 function renderCard(cardElement, container) {
@@ -26,10 +35,44 @@ function renderCard(cardElement, container) {
 }
 
 function getCardView(cardData) {
-  const card = new Card(cardData, cardSelector);
+  const card = new Card(cardData, cardSelector, (data) => {
+    imagePopup.open(data);
+  });
   return card.getView();
 }
 
+const imagePopup = new PopupWithImage({
+  popupSelector: "#preview-popup",
+});
+
+imagePopup.setEventListeners();
+
+const NewCardPopup = new PopupWithForm({
+  popupSelector: cardAddPopup,
+  handleFormSubmit: (data) => {
+    const cardView = getCardView(data);
+    renderCard(cardView, cardListElement);
+    //cardList.addItem(createNewCard(data));
+  },
+});
+
+NewCardPopup.setEventListeners();
+
+const userInfo = new UserInfo({
+  userNameSelector: profileNameElement,
+  userTitleSelector: profileTitleElement,
+});
+
+const EditProfilePopup = new PopupWithForm({
+  popupSelector: profileEditPopup,
+  handleFormSubmit: (data) => {
+    userInfo.setUserInfo(data);
+  },
+});
+
+EditProfilePopup.setEventListeners();
+
+console.log(imagePopup);
 /* -------------------------------------------------------------------------- */
 /*                                 Validation                                 */
 /* -------------------------------------------------------------------------- */
@@ -52,15 +95,17 @@ addFormValidator.enableValidation();
 /* -------------------------------------------------------------------------- */
 
 profileEditButton.addEventListener("click", () => {
-  profileNameInput.value = profileNameElement.textContent;
+  console.log(profileNameElement);
+  profileNameInput.value =
+    document.querySelector(profileNameElement).textContent;
+  profileTitleInput.value =
+    document.querySelector(profileTitleElement).textContent;
 
-  profileTitleInput.value = profileTitleElement.textContent;
-
-  openPopup(profileEditPopup);
+  EditProfilePopup.open();
 });
 
-profileEditCloseButton.addEventListener("click", () => {
-  closePopup(profileEditPopup);
+cardAddButton.addEventListener("click", () => {
+  NewCardPopup.open();
 });
 
 /* -------------------------------------------------------------------------- */

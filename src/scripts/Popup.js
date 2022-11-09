@@ -8,9 +8,10 @@ export default class Popup {
     document.addEventListener("keyup", (event) => {
       this._handleEscapeClose(event);
     });
-    this.popupSelector.addEventListener("click", (event) => {
-      this._handleClickOnOverlay(event);
-    });
+    this.popupSelector.addEventListener(
+      "click",
+      this._handleClickOnOverlay.bind(this)
+    );
   }
 
   close() {
@@ -18,9 +19,10 @@ export default class Popup {
     document.removeEventListener("keyup", (event) => {
       this._handleEscapeClose(event);
     });
-    this.popupSelector.removeEventListener("click", (event) => {
-      this._handleClickOnOverlay(event);
-    });
+    this.popupSelector.removeEventListener(
+      "mousedown",
+      this._handleClickOnOverlay
+    );
   }
 
   _handleEscapeClose(event) {
@@ -30,15 +32,18 @@ export default class Popup {
     }
   }
 
-  _handleOverlay(event) {
+  _handleClickOnOverlay(event) {
     if (event.target.classList.contains("popup")) {
-      this.closePopup();
+      this.close();
     }
   }
 
   setEventListeners() {
-    this.popupSelector.addEventListener("click", (event) => {
-      if (!event.target.closest(".popup__content")) {
+    this.popupSelector.addEventListener("mousedown", (event) => {
+      if (
+        !event.target.closest(".popup__content") ||
+        event.target.classList.contains("popup__close-button")
+      ) {
         this.close(event.currentTarget);
       }
     });

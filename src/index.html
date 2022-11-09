@@ -9,12 +9,16 @@
   </head>
   <body class="page">
     <header class="header">
-      <img src="images/header.svg" alt="Around the U.S." class="header__logo" />
+      <img
+        src="<%=require('./images/header.svg')%>"
+        alt="Around the U.S."
+        class="header__logo"
+      />
     </header>
     <main class="body">
       <section class="profile">
         <img
-          src="images/cousteau.png"
+          src="<%=require('./images/cousteau.png')%>"
           alt="French explorer, Jacques Cousteau"
           class="profile__image"
         />
@@ -149,7 +153,7 @@
         <li class="cards__place">
           <img src="#" alt="Yosemite Valley" class="card__image" />
           <img
-            src="images/Trash.svg"
+            src="<%=require('./images/Trash.svg')%>"
             alt="delete button"
             class="cards__delete"
           />

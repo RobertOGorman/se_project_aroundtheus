@@ -31,5 +31,6 @@ export default class PopupWithForm extends Popup {
 
       this.close();
     });
+    super.setEventListeners();
   }
 }

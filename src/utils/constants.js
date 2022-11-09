@@ -8,20 +8,14 @@ export const previewPopup = document.querySelector("#preview-popup");
 export const profileEditButton = document.querySelector(
   ".profile__edit-button"
 );
-export const profileEditPopup = document.querySelector("#edit-popup");
-export const profileEditCloseButton = profileEditPopup.querySelector(
-  ".popup__close-button"
-);
+export const profileEditPopup = "#edit-popup";
 export const profileEditForm = document.querySelector("#edit-profile-form");
-export const profileNameElement = document.querySelector(".profile__name");
-export const profileTitleElement = document.querySelector(".profile__title");
+export const profileNameElement = ".profile__name";
+export const profileTitleElement = ".profile__title";
 
-export const cardAddPopup = document.querySelector("#add-popup");
+export const cardAddPopup = "#add-popup";
 export const cardAddButton = document.querySelector("#add-button");
 export const cardAddForm = document.querySelector("#add-card-form");
-export const cardCloseButton = cardAddPopup.querySelector(
-  ".popup__close-button"
-);
 
 export const profileNameInput = document.querySelector(
   ".popup__input_type_name"
