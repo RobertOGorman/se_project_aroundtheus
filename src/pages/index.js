@@ -72,7 +72,6 @@ const EditProfilePopup = new PopupWithForm({
 
 EditProfilePopup.setEventListeners();
 
-console.log(imagePopup);
 /* -------------------------------------------------------------------------- */
 /*                                 Validation                                 */
 /* -------------------------------------------------------------------------- */
