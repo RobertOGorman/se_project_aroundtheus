@@ -1,7 +1,6 @@
 import FormValidator from "../scripts/FormValidator.js";
 import Card from "../scripts/Card.js";
 import {
-  previewPopup,
   validationSettings,
   profileEditButton,
   initialCards,
