@@ -23,12 +23,6 @@ import PopupWithImage from "../scripts/PopupWithImage.js";
 /*                                 Functions                                  */
 /* -------------------------------------------------------------------------- */
 
-//close preview popup
-const previewCloseButton = previewPopup.querySelector(".popup__close-button");
-previewCloseButton.addEventListener("click", () => {
-  close(previewPopup);
-});
-
 function renderCard(cardElement, container) {
   //append to list
   container.prepend(cardElement);
@@ -47,12 +41,29 @@ const imagePopup = new PopupWithImage({
 
 imagePopup.setEventListeners();
 
+/* -------------------------------------------------------------------------- */
+/*                                 Validation                                 */
+/* -------------------------------------------------------------------------- */
+
+//edit form
+const editFormElement = document.querySelector("#edit-profile-form");
+const editFormValidator = new FormValidator(
+  validationSettings,
+  editFormElement
+);
+editFormValidator.enableValidation();
+
+//add form
+const addFormElement = document.querySelector("#add-card-form");
+const addFormValidator = new FormValidator(validationSettings, addFormElement);
+addFormValidator.enableValidation();
+
 const NewCardPopup = new PopupWithForm({
   popupSelector: cardAddPopup,
   handleFormSubmit: (data) => {
     const cardView = getCardView(data);
     renderCard(cardView, cardListElement);
-    //cardList.addItem(createNewCard(data));
+    addFormValidator.disableButton();
   },
 });
 
@@ -71,23 +82,6 @@ const EditProfilePopup = new PopupWithForm({
 });
 
 EditProfilePopup.setEventListeners();
-
-/* -------------------------------------------------------------------------- */
-/*                                 Validation                                 */
-/* -------------------------------------------------------------------------- */
-
-//edit form
-const editFormElement = document.querySelector("#edit-profile-form");
-const editFormValidator = new FormValidator(
-  validationSettings,
-  editFormElement
-);
-editFormValidator.enableValidation();
-
-//add form
-const addFormElement = document.querySelector("#add-card-form");
-const addFormValidator = new FormValidator(validationSettings, addFormElement);
-addFormValidator.enableValidation();
 
 /* -------------------------------------------------------------------------- */
 /*                               Event Listeners                              */
