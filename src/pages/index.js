@@ -1,11 +1,11 @@
 import FormValidator from "../components/FormValidator.js";
 import Card from "../components/Card.js";
 import {
-  validationSettings,
   profileEditButton,
-  initialCards,
   cardAddButton,
+  validationSettings,
   selectors,
+  initialCards,
 } from "../utils/constants.js";
 import "./index.css";
 import PopupWithForm from "../components/PopupWithForm.js";
@@ -25,7 +25,6 @@ const cardSection = new Section(
   },
   selectors.cardListElement
 );
-
 cardSection.renderItems();
 
 function getCardView(cardData) {
@@ -34,12 +33,6 @@ function getCardView(cardData) {
   });
   return card.getView();
 }
-
-const imagePopup = new PopupWithImage({
-  popupSelector: "#preview-popup",
-});
-
-imagePopup.setEventListeners();
 
 /* -------------------------------------------------------------------------- */
 /*                                 Validation                                 */
@@ -58,19 +51,9 @@ const addFormElement = document.querySelector("#add-card-form");
 const addFormValidator = new FormValidator(validationSettings, addFormElement);
 addFormValidator.enableValidation();
 
-const newCardPopup = new PopupWithForm({
-  popupSelector: selectors.cardAddPopup,
-  handleFormSubmit: (data) => {
-    cardSection.addItem(getCardView(data));
-  },
-});
-
-newCardPopup.setEventListeners();
-
-const userInfo = new UserInfo({
-  userNameSelector: selectors.profileNameElement,
-  userTitleSelector: selectors.profileTitleElement,
-});
+/* -------------------------------------------------------------------------- */
+/*                               Event Listeners                              */
+/* -------------------------------------------------------------------------- */
 
 const editProfilePopup = new PopupWithForm({
   popupSelector: selectors.profileEditPopup,
@@ -78,22 +61,35 @@ const editProfilePopup = new PopupWithForm({
     userInfo.setUserInfo(data);
   },
 });
-
 editProfilePopup.setEventListeners();
 
-/* -------------------------------------------------------------------------- */
-/*                               Event Listeners                              */
-/* -------------------------------------------------------------------------- */
+const newCardPopup = new PopupWithForm({
+  popupSelector: selectors.cardAddPopup,
+  handleFormSubmit: (data) => {
+    cardSection.addItem(getCardView(data));
+  },
+});
+newCardPopup.setEventListeners();
+
+const imagePopup = new PopupWithImage({
+  popupSelector: "#preview-popup",
+});
+imagePopup.setEventListeners();
+
+const userInfo = new UserInfo({
+  userNameSelector: selectors.profileNameElement,
+  userTitleSelector: selectors.profileTitleElement,
+});
 
 profileEditButton.addEventListener("click", () => {
   const { userName, userTitle } = userInfo.getUserInfo();
   document.querySelector(selectors.profileNameInput).value = userName;
   document.querySelector(selectors.profileTitleInput).value = userTitle;
-  addFormValidator.disableButton();
+  addFormValidator.resetValidation();
   editProfilePopup.open();
 });
 
 cardAddButton.addEventListener("click", () => {
-  addFormValidator.disableButton();
+  addFormValidator.resetValidation();
   newCardPopup.open();
 });
