@@ -2,29 +2,12 @@
 /*                                  Variables                                 */
 /* -------------------------------------------------------------------------- */
 
-export const cardListElement = document.querySelector(".cards__array");
-export const previewPopup = document.querySelector("#preview-popup");
-
 export const profileEditButton = document.querySelector(
   ".profile__edit-button"
 );
-export const profileEditPopup = "#edit-popup";
 export const profileEditForm = document.querySelector("#edit-profile-form");
-export const profileNameElement = ".profile__name";
-export const profileTitleElement = ".profile__title";
-
-export const cardAddPopup = "#add-popup";
 export const cardAddButton = document.querySelector("#add-button");
 export const cardAddForm = document.querySelector("#add-card-form");
-
-export const profileNameInput = document.querySelector(
-  ".popup__input_type_name"
-);
-export const profileTitleInput = document.querySelector(
-  ".popup__input_type_title"
-);
-
-export const cardSelector = "#card-template";
 
 /* -------------------------------------------------------------------------- */
 /*                                Cards Array                                 */
@@ -63,4 +46,18 @@ export const validationSettings = {
   inactiveButtonClass: "popup__button_disabled",
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
+};
+
+export const selectors = {
+  cardListElement: ".cards__array",
+  cardTemplate: "#card-template",
+  previewPopup: "#preview-popup",
+
+  profileNameInput: ".popup__input_type_name",
+  profileTitleInput: ".popup__input_type_title",
+
+  profileEditPopup: "#edit-popup",
+  cardAddPopup: "#add-popup",
+  profileNameElement: ".profile__name",
+  profileTitleElement: ".profile__title",
 };

@@ -1,34 +1,35 @@
-import FormValidator from "../scripts/FormValidator.js";
-import Card from "../scripts/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import Card from "../components/Card.js";
 import {
   validationSettings,
   profileEditButton,
   initialCards,
-  cardSelector,
-  cardListElement,
-  profileNameInput,
-  profileNameElement,
-  profileTitleInput,
-  profileTitleElement,
-  profileEditPopup,
-  cardAddPopup,
   cardAddButton,
+  selectors,
 } from "../utils/constants.js";
 import "./index.css";
-import PopupWithForm from "../scripts/PopupWithForm.js";
-import UserInfo from "../scripts/UserInfo.js";
-import PopupWithImage from "../scripts/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import Section from "../components/Section.js";
 /* -------------------------------------------------------------------------- */
 /*                                 Functions                                  */
 /* -------------------------------------------------------------------------- */
 
-function renderCard(cardElement, container) {
-  //append to list
-  container.prepend(cardElement);
-}
+const cardSection = new Section(
+  {
+    items: initialCards,
+    renderer: (cardData) => {
+      cardSection.addItem(getCardView(cardData));
+    },
+  },
+  selectors.cardListElement
+);
+
+cardSection.renderItems();
 
 function getCardView(cardData) {
-  const card = new Card(cardData, cardSelector, (data) => {
+  const card = new Card(cardData, "#card-template", (data) => {
     imagePopup.open(data);
   });
   return card.getView();
@@ -57,54 +58,42 @@ const addFormElement = document.querySelector("#add-card-form");
 const addFormValidator = new FormValidator(validationSettings, addFormElement);
 addFormValidator.enableValidation();
 
-const NewCardPopup = new PopupWithForm({
-  popupSelector: cardAddPopup,
+const newCardPopup = new PopupWithForm({
+  popupSelector: selectors.cardAddPopup,
   handleFormSubmit: (data) => {
-    const cardView = getCardView(data);
-    renderCard(cardView, cardListElement);
-    addFormValidator.disableButton();
+    cardSection.addItem(getCardView(data));
   },
 });
 
-NewCardPopup.setEventListeners();
+newCardPopup.setEventListeners();
 
 const userInfo = new UserInfo({
-  userNameSelector: profileNameElement,
-  userTitleSelector: profileTitleElement,
+  userNameSelector: selectors.profileNameElement,
+  userTitleSelector: selectors.profileTitleElement,
 });
 
-const EditProfilePopup = new PopupWithForm({
-  popupSelector: profileEditPopup,
+const editProfilePopup = new PopupWithForm({
+  popupSelector: selectors.profileEditPopup,
   handleFormSubmit: (data) => {
     userInfo.setUserInfo(data);
   },
 });
 
-EditProfilePopup.setEventListeners();
+editProfilePopup.setEventListeners();
 
 /* -------------------------------------------------------------------------- */
 /*                               Event Listeners                              */
 /* -------------------------------------------------------------------------- */
 
 profileEditButton.addEventListener("click", () => {
-  console.log(profileNameElement);
-  profileNameInput.value =
-    document.querySelector(profileNameElement).textContent;
-  profileTitleInput.value =
-    document.querySelector(profileTitleElement).textContent;
-
-  EditProfilePopup.open();
+  const { userName, userTitle } = userInfo.getUserInfo();
+  document.querySelector(selectors.profileNameInput).value = userName;
+  document.querySelector(selectors.profileTitleInput).value = userTitle;
+  addFormValidator.disableButton();
+  editProfilePopup.open();
 });
 
 cardAddButton.addEventListener("click", () => {
-  NewCardPopup.open();
-});
-
-/* -------------------------------------------------------------------------- */
-/*                               Initialize Card                              */
-/* -------------------------------------------------------------------------- */
-
-initialCards.reverse().forEach((cardData) => {
-  const cardView = getCardView(cardData);
-  renderCard(cardView, cardListElement);
+  addFormValidator.disableButton();
+  newCardPopup.open();
 });
