@@ -68,6 +68,7 @@ const newCardPopup = new PopupWithForm({
   handleFormSubmit: (data) => {
     cardSection.addItem(getCardView(data));
   },
+  resetOnClose: true,
 });
 newCardPopup.setEventListeners();
 
