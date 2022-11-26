@@ -21,19 +21,31 @@ const api = new Api("https://around.nomoreparties.co/v1/group-12", {
   authorization: "131ba339-cd78-4b6e-97bd-4c8ebc90ef11",
   "Content-Type": "application/json",
 });
+
 let cardSection = null;
-api.getInitialCards().then((cards) => {
-  cardSection = new Section(
-    {
-      items: cards,
-      renderer: (cardData) => {
-        cardSection.addItem(getCardView(cardData));
+let userId = null;
+
+Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
+  ([data, cards]) => {
+    userId = data._id;
+    userInfo.setUserInfo({
+      userName: data.name,
+      userTitle: data.about,
+      userAvatar: data.avatar,
+    });
+
+    cardSection = new Section(
+      {
+        items: cards,
+        renderer: (cardData) => {
+          cardSection.addItem(getCardView(cardData));
+        },
       },
-    },
-    selectors.cardListElement
-  );
-  cardSection.renderItems();
-});
+      selectors.cardListElement
+    );
+    cardSection.renderItems();
+  }
+);
 
 function getCardView(cardData) {
   const card = new Card(cardData, "#card-template", (data) => {
@@ -103,6 +115,8 @@ const userInfo = new UserInfo({
 });
 
 selectors.avatarButton.addEventListener("click", () => {
+  userInfo.getUserInfo();
+  input;
   avatarFormValidator.resetValidation();
   selectors.avatarPopupElement.open();
 });
