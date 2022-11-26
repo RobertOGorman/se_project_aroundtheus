@@ -4,6 +4,9 @@ class Card {
     this._link = data.link;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
+    this._likes = data.likes;
+    this._userId = data.owner._id;
+    this._cardId = data._id;
   }
 
   _setEventListeners() {
@@ -40,6 +43,16 @@ class Card {
       .cloneNode(true);
   }
 
+  showLikes(data) {
+    this._likes = data || [];
+    this._element.querySelector(".cards__like-counter").textContent =
+      this._likes.length;
+  }
+
+  isLiked() {
+    return this._likes.some((item) => item._id === this._userId);
+  }
+
   getView() {
     this._element = this._getTemplate();
     const imageElement = this._element.querySelector(".card__image");
@@ -49,6 +62,7 @@ class Card {
     cardTitle.textContent = this._name;
 
     this._setEventListeners();
+    this.showLikes(this._likes);
     return this._element;
   }
 }

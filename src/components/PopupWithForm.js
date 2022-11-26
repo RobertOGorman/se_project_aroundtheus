@@ -34,4 +34,12 @@ export default class PopupWithForm extends Popup {
     });
     super.setEventListeners();
   }
+
+  submitText(submit, submitText = "Saving...") {
+    if (submit) {
+      this._submitButton.textContent = submitText;
+    } else {
+      this._submitButton.textContent = this._submitButtonText;
+    }
+  }
 }
