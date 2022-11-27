@@ -1,0 +1,11 @@
+.profile__avatar:hover .profile__avatar-button {
+    cursor: pointer;
+    opacity: 0.8;
+    visibility: visible;
+  }
+  
+  .profile__avatar:hover .profile__image {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+  

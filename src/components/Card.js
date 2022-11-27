@@ -5,7 +5,6 @@ class Card {
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._likes = data.likes;
-    this._userId = data.owner._id;
     this._cardId = data._id;
   }
 

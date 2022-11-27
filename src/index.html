@@ -17,24 +17,27 @@
     </header>
     <main class="body">
       <section class="profile">
-        <img
-          src="<%=require('./images/cousteau.png')%>"
-          alt="French explorer, Jacques Cousteau"
-          class="profile__image"
-        />
-        <button
-          class="profile__avatar-button"
-          id="avatar-button"
-          type="button"
-          aria-label="edit"
-        ></button>
+        <div class="profile__avatar">
+          <button
+            class="profile__avatar-button"
+            id="avatar-button"
+            type="button"
+            aria-label="edit"
+          ></button>
+          <img
+            src="<%=require('./images/cousteau.png')%>"
+            alt="French explorer, Jacques Cousteau"
+            class="profile__image"
+          />
+        </div>
         <div class="profile__details">
           <div class="profile__text">
-            <h1 class="profile__name">Jacques Cousteau</h1>
-            <p class="profile__title">Explorer</p>
+            <h1 class="profile__name"></h1>
+            <p class="profile__title"></p>
           </div>
           <button
             class="profile__edit-button"
+            id="edit-button"
             type="button"
             aria-label="edit"
           ></button>

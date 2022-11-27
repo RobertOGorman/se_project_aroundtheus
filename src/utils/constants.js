@@ -7,6 +7,8 @@ export const profileEditButton = document.querySelector(
 );
 export const cardAddButton = document.querySelector("#add-button");
 
+export const avatarButton = document.querySelector("#avatar-button");
+
 export const validationSettings = {
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__button",

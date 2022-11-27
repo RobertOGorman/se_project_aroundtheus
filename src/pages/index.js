@@ -3,6 +3,7 @@ import Card from "../components/Card.js";
 import {
   profileEditButton,
   cardAddButton,
+  avatarButton,
   validationSettings,
   selectors,
 } from "../utils/constants.js";
@@ -29,9 +30,8 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
   ([data, cards]) => {
     userId = data._id;
     userInfo.setUserInfo({
-      userName: data.name,
-      userTitle: data.about,
-      userAvatar: data.avatar,
+      name: data.name,
+      title: data.about,
     });
 
     cardSection = new Section(
@@ -104,6 +104,15 @@ const newCardPopup = new PopupWithForm({
 });
 newCardPopup.setEventListeners();
 
+const newAvatarPopup = new PopupWithForm({
+  popupSelector: selectors.avatarPopupElement,
+  handleFormSubmit: (data) => {
+    cardSection.addItem(getCardView(data));
+  },
+  resetOnClose: true,
+});
+newAvatarPopup.setEventListeners();
+
 const imagePopup = new PopupWithImage({
   popupSelector: "#preview-popup",
 });
@@ -114,15 +123,14 @@ const userInfo = new UserInfo({
   userTitleSelector: selectors.profileTitleElement,
 });
 
-selectors.avatarButton.addEventListener("click", () => {
-  userInfo.getUserInfo();
-  input;
+avatarButton.addEventListener("click", () => {
   avatarFormValidator.resetValidation();
-  selectors.avatarPopupElement.open();
+  newAvatarPopup.open();
 });
 
 profileEditButton.addEventListener("click", () => {
   const { userName, userTitle } = userInfo.getUserInfo();
+  console.log(userName, userTitle);
   document.querySelector(selectors.profileNameInput).value = userName;
   document.querySelector(selectors.profileTitleInput).value = userTitle;
   addFormValidator.resetValidation();
