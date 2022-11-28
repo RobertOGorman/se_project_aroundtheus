@@ -6,6 +6,8 @@ class Card {
     this._handleCardClick = handleCardClick;
     this._likes = data.likes;
     this._cardId = data._id;
+    this._userId = data._userId;
+    this._ownerId = data.owner._id;
   }
 
   _setEventListeners() {
@@ -50,6 +52,13 @@ class Card {
 
   isLiked() {
     return this._likes.some((item) => item._id === this._userId);
+  }
+
+  _removeDeleteButton() {
+    this._deleteButton = this._element.querySelector("cards__delete");
+    if (this._userId !== this._ownerId) {
+      this._deleteButton.remove();
+    }
   }
 
   getView() {

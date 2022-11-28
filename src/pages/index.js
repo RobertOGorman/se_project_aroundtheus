@@ -38,7 +38,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
       {
         items: cards,
         renderer: (cardData) => {
-          cardSection.addItem(getCardView(cardData));
+          cardSection.addItem(renderCard(cardData));
         },
       },
       selectors.cardListElement
@@ -47,10 +47,35 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
   }
 );
 
-function getCardView(cardData) {
-  const card = new Card(cardData, "#card-template", (data) => {
-    imagePopup.open(data);
-  });
+function renderCard(cardData, data, imagePopup) {
+  const card = new Card(
+    cardData,
+    "#card-template",
+    (data) => {
+      imagePopup.open(data);
+    },
+    () => {
+      if (card.isLiked()) {
+        api
+          .removeLikes(data._id)
+          .then((response) => {
+            card.showLikes(response.likes);
+          })
+          .catch((error) => {
+            console.log(`An error has occured ${error}`);
+          });
+      } else {
+        api
+          .addLikes(data._id)
+          .then((response) => {
+            card.showLikes(response.likes);
+          })
+          .catch((error) => {
+            console.log(`An error has occured ${error}`);
+          });
+      }
+    }
+  );
   return card.getView();
 }
 
@@ -114,7 +139,7 @@ const newAvatarPopup = new PopupWithForm({
         userInfo.setUserInfo(data);
         newAvatarPopup.close();
       })
-      .catch((error) => console.log(`An error occured ${error}`))
+      .catch((error) => console.log(`An error has occured ${error}`))
       .finally(() => newAvatarPopup.submitText(false));
   },
 });
