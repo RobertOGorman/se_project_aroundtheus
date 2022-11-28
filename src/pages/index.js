@@ -107,10 +107,18 @@ newCardPopup.setEventListeners();
 const newAvatarPopup = new PopupWithForm({
   popupSelector: selectors.avatarPopupElement,
   handleFormSubmit: (data) => {
-    cardSection.addItem(getCardView(data));
+    newAvatarPopup.submitText(true);
+    api
+      .editAvatar(data)
+      .then((data) => {
+        userInfo.setUserInfo(data);
+        newAvatarPopup.close();
+      })
+      .catch((error) => console.log(`An error occured ${error}`))
+      .finally(() => newAvatarPopup.submitText(false));
   },
-  resetOnClose: true,
 });
+
 newAvatarPopup.setEventListeners();
 
 const imagePopup = new PopupWithImage({
