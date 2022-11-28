@@ -32,4 +32,5 @@ export const selectors = {
 
   avatarPopupElement: "#avatar-popup",
   avatarButton: "#avatar-button",
+  avatarImage: ".profile__image",
 };

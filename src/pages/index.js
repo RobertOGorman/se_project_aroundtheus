@@ -32,6 +32,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
     userInfo.setUserInfo({
       name: data.name,
       title: data.about,
+      avatar: data.avatar,
     });
 
     cardSection = new Section(
@@ -123,7 +124,7 @@ editProfilePopup.setEventListeners();
 const newCardPopup = new PopupWithForm({
   popupSelector: selectors.cardAddPopup,
   handleFormSubmit: (data) => {
-    cardSection.addItem(getCardView(data));
+    cardSection.addItem(renderCard(data));
   },
   resetOnClose: true,
 });
@@ -154,6 +155,7 @@ imagePopup.setEventListeners();
 const userInfo = new UserInfo({
   userNameSelector: selectors.profileNameElement,
   userTitleSelector: selectors.profileTitleElement,
+  userAvatarSelector: selectors.avatarImage,
 });
 
 avatarButton.addEventListener("click", () => {
