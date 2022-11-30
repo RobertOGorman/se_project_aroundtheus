@@ -28,7 +28,6 @@ let userId = null;
 
 Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
   ([data, cards]) => {
-    console.log(data, cards);
     userId = data._id;
     userInfo.setUserInfo({
       name: data.name,
@@ -55,8 +54,8 @@ function renderCard(cardData) {
     "#card-template",
     (data) => {
       imagePopup.open(data);
-    },
-    () => {
+    }
+    /*() => {
       if (card.isLiked()) {
         api
           .removeLikes(data._id)
@@ -76,7 +75,7 @@ function renderCard(cardData) {
             console.log(`An error has occured ${error}`);
           });
       }
-    }
+    }*/
   );
   return card.getView();
 }
@@ -127,9 +126,9 @@ const newCardPopup = new PopupWithForm({
   handleFormSubmit: (cardData) => {
     api.postCard(cardData).then((data) => {
       cardSection.addItem(renderCard(data));
-      //resetOnClose: true,
     });
   },
+  resetOnClose: true,
 });
 newCardPopup.setEventListeners();
 

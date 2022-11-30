@@ -20,7 +20,7 @@ class Card {
       .addEventListener("click", () => this._handleDeleteCard());
 
     this._element
-      .querySelector(".card__image")
+      .querySelector(".cards__image")
       .addEventListener("click", () =>
         this._handleCardClick({ link: this._link, name: this._name })
       );
@@ -63,11 +63,18 @@ class Card {
 
   getView() {
     this._element = this._getTemplate();
-    const imageElement = this._element.querySelector(".card__image");
-    const cardTitle = this._element.querySelector(".cards__location-title");
-    imageElement.src = this._link;
-    imageElement.alt = this._name;
-    cardTitle.textContent = this._name;
+    this._imageElement = this._element.querySelector(".cards__image");
+    this._elementTitle = this._element.querySelector(".cards__location");
+    this._imageElement.src = this._link;
+    this._imageElement.alt = this._name;
+    this._elementTitle.textContent = this._name;
+    this._likeButton = this._element.querySelector(".cards__like-button");
+    this._deleteButton = this._element.querySelector(".cards__delete");
+    this._likeCounter = this._element.querySelector(".cards__like-counter");
+
+    /*if (this._ownerId !== this._userId) {
+        this._removeDeleteButton();
+      }*/
 
     this._setEventListeners();
     this.showLikes(this._likes);
