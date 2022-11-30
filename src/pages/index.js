@@ -39,7 +39,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
       {
         items: cards,
         renderer: (cardData) => {
-          cardSection.addItem(renderCard(cardData));
+          cardSection.addItem(renderCard(cardData, userId));
         },
       },
       selectors.cardListElement
@@ -48,14 +48,14 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
   }
 );
 
-function renderCard(cardData) {
+function renderCard(cardData, userId) {
   const card = new Card(
     cardData,
     "#card-template",
-    (data) => {
+    () => {
       imagePopup.open(data);
-    }
-    /*() => {
+    },
+    () => {
       if (card.isLiked()) {
         api
           .removeLikes(data._id)
@@ -75,7 +75,8 @@ function renderCard(cardData) {
             console.log(`An error has occured ${error}`);
           });
       }
-    }*/
+    },
+    userId
   );
   return card.getView();
 }
