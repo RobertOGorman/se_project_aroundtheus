@@ -28,10 +28,11 @@ let userId = null;
 
 Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
   ([data, cards]) => {
+    console.log(data, cards);
     userId = data._id;
     userInfo.setUserInfo({
       name: data.name,
-      title: data.about,
+      about: data.about,
       avatar: data.avatar,
     });
 
@@ -48,7 +49,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
   }
 );
 
-function renderCard(cardData, data, imagePopup) {
+function renderCard(cardData) {
   const card = new Card(
     cardData,
     "#card-template",
@@ -123,10 +124,12 @@ editProfilePopup.setEventListeners();
 
 const newCardPopup = new PopupWithForm({
   popupSelector: selectors.cardAddPopup,
-  handleFormSubmit: (data) => {
-    cardSection.addItem(renderCard(data));
+  handleFormSubmit: (cardData) => {
+    api.postCard(cardData).then((data) => {
+      cardSection.addItem(renderCard(data));
+      //resetOnClose: true,
+    });
   },
-  resetOnClose: true,
 });
 newCardPopup.setEventListeners();
 
@@ -165,7 +168,6 @@ avatarButton.addEventListener("click", () => {
 
 profileEditButton.addEventListener("click", () => {
   const { userName, userTitle } = userInfo.getUserInfo();
-  console.log(userName, userTitle);
   document.querySelector(selectors.profileNameInput).value = userName;
   document.querySelector(selectors.profileTitleInput).value = userTitle;
   addFormValidator.resetValidation();
