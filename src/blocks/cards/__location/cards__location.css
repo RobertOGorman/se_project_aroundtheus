@@ -1,5 +1,5 @@
 .cards__location {
-  margin: 0 0 26px 21px;
+  margin-left: 21px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

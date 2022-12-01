@@ -6,6 +6,7 @@
   background-color: transparent;
   border: none;
   position: relative;
+  margin-top: 22px;
 }
 
 .cards__like-button:hover {
