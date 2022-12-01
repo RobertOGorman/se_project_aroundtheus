@@ -161,6 +161,7 @@ const newAvatarPopup = new PopupWithForm({
       .catch((error) => console.log(`An error has occured ${error}`))
       .finally(() => newAvatarPopup.submitText(false));
   },
+  resetOnClose: true,
 });
 
 newAvatarPopup.setEventListeners();
