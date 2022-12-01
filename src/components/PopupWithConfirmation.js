@@ -21,7 +21,7 @@ export default class PopupWithConfirmation extends Popup {
 
   openPopup(confirmation) {
     super.open();
-    this._confirmDelte = confirmation;
+    this._confirmDelete = confirmation;
   }
 
   setEventListners() {

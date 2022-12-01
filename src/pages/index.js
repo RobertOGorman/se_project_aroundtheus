@@ -82,15 +82,14 @@ function renderCard(cardData, userId) {
           });
       }
     },
+    /*() => { //TODO - Fix Confirm Popup
+      confirmationPopup._confirmDelete()
+
+    }*/
     userId
   );
   return card.getView();
 }
-
-const confirmationPopup = new PopupWithConfirmation({
-  popupSelector: "#confirm-popup",
-});
-confirmationPopup.setEventListeners();
 
 /* -------------------------------------------------------------------------- */
 /*                                 Validation                                 */
@@ -124,11 +123,12 @@ const editProfilePopup = new PopupWithForm({
   popupSelector: selectors.profileEditPopup,
   handleFormSubmit: (data) => {
     editProfilePopup.submitText(true);
-    api.editUserInfo(data);
-    then((data) => {
-      userInfo.setUserInfo(data);
-      editProfilePopup.close();
-    })
+    api
+      .editUserInfo(data)
+      .then((data) => {
+        userInfo.setUserInfo(data);
+        editProfilePopup.close();
+      })
       .catch((error) => {
         console.log(`An error has occured ${error}`);
       })
@@ -163,13 +163,15 @@ const newAvatarPopup = new PopupWithForm({
   },
   resetOnClose: true,
 });
-
 newAvatarPopup.setEventListeners();
 
 const imagePopup = new PopupWithImage({
   popupSelector: "#preview-popup",
 });
 imagePopup.setEventListeners();
+
+/*const confirmationPopup = new PopupWithConfirmation(selectors.confirmPopup); //TODO - Fix Confirm Popup
+confirmationPopup.setEventListeners();*/
 
 avatarButton.addEventListener("click", () => {
   avatarFormValidator.resetValidation();
