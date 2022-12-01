@@ -55,13 +55,13 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
 );
 
 function renderCard(cardData, userId) {
-  const card = new Card(
-    cardData,
-    "#card-template",
-    () => {
+  const card = new Card({
+    data: { ...cardData, userId },
+    selector: "#card-template",
+    handleCardClick: () => {
       imagePopup.open(cardData);
     },
-    () => {
+    handleLikeClick: () => {
       if (card.isLiked()) {
         api
           .removeLikes(data._id)
@@ -82,12 +82,24 @@ function renderCard(cardData, userId) {
           });
       }
     },
-    /*() => { //TODO - Fix Confirm Popup
-      confirmationPopup._confirmDelete()
 
-    }*/
-    userId
-  );
+    handleDeleteClick: (card) => {
+      confirmationPopup.confirmDelete(() => {
+        confirmationPopup.submitText(true);
+        api
+          .deleteCard(card._cardId)
+          .then(() => {
+            card.deleteCard();
+            confirmationPopup.close();
+          })
+          .catch((error) => {
+            console.log(`An error has occured ${error}`);
+          })
+          .finally(() => confirmationPopup.submitText(false));
+      });
+      confirmationPopup.open();
+    },
+  });
   return card.getView();
 }
 
@@ -170,8 +182,10 @@ const imagePopup = new PopupWithImage({
 });
 imagePopup.setEventListeners();
 
-/*const confirmationPopup = new PopupWithConfirmation(selectors.confirmPopup); //TODO - Fix Confirm Popup
-confirmationPopup.setEventListeners();*/
+const confirmationPopup = new PopupWithConfirmation({
+  popupSelector: selectors.confirmPopup,
+});
+confirmationPopup.setEventListeners();
 
 avatarButton.addEventListener("click", () => {
   avatarFormValidator.resetValidation();
