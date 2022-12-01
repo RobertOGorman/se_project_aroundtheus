@@ -26,6 +26,12 @@ const api = new Api("https://around.nomoreparties.co/v1/group-12", {
 let cardSection = null;
 let userId = null;
 
+const userInfo = new UserInfo({
+  userNameSelector: selectors.profileNameElement,
+  userTitleSelector: selectors.profileTitleElement,
+  userAvatarSelector: selectors.avatarImage,
+});
+
 Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
   ([data, cards]) => {
     userId = data._id;
@@ -53,7 +59,7 @@ function renderCard(cardData, userId) {
     cardData,
     "#card-template",
     () => {
-      imagePopup.open(data);
+      imagePopup.open(cardData);
     },
     () => {
       if (card.isLiked()) {
@@ -117,7 +123,16 @@ avatarFormValidator.enableValidation();
 const editProfilePopup = new PopupWithForm({
   popupSelector: selectors.profileEditPopup,
   handleFormSubmit: (data) => {
-    userInfo.setUserInfo(data);
+    editProfilePopup.submitText(true);
+    api.editUserInfo(data);
+    then((data) => {
+      userInfo.setUserInfo(data);
+      editProfilePopup.close();
+    })
+      .catch((error) => {
+        console.log(`An error has occured ${error}`);
+      })
+      .finally(() => editProfilePopup.submitText(false));
   },
 });
 editProfilePopup.setEventListeners();
@@ -126,7 +141,7 @@ const newCardPopup = new PopupWithForm({
   popupSelector: selectors.cardAddPopup,
   handleFormSubmit: (cardData) => {
     api.postCard(cardData).then((data) => {
-      cardSection.addItem(renderCard(data));
+      cardSection.addItem(renderCard(data, userId));
     });
   },
   resetOnClose: true,
@@ -154,12 +169,6 @@ const imagePopup = new PopupWithImage({
   popupSelector: "#preview-popup",
 });
 imagePopup.setEventListeners();
-
-const userInfo = new UserInfo({
-  userNameSelector: selectors.profileNameElement,
-  userTitleSelector: selectors.profileTitleElement,
-  userAvatarSelector: selectors.avatarImage,
-});
 
 avatarButton.addEventListener("click", () => {
   avatarFormValidator.resetValidation();
