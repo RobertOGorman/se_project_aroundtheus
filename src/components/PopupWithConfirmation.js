@@ -5,6 +5,7 @@ export default class PopupWithConfirmation extends Popup {
     super(options);
     this._submitButton = this._popup.querySelector(".popup__button");
     this._submitButtonText = this._submitButton.textContent;
+    this._popupForm = this._popup.querySelector(".popup__form");
   }
 
   submitText(submit, submitText = "Saving...") {
@@ -24,17 +25,11 @@ export default class PopupWithConfirmation extends Popup {
     this._confirmDelete = confirmation;
   }
 
-  setEventListners() {
+  setEventListeners() {
     super.setEventListeners();
-    this._submitButton.addEventListener("submit", (event) => {
+    this._popupForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      this.confirmDelete();
+      this._handleFormSubmit();
     });
-    //this._submitButton.addEventListener("submit", this.confirmDelete);
-  }
-
-  removeEventListeners() {
-    super.removeEventListeners();
-    this._submitButton.removeEventListeners("submit", this.confirmDelete);
   }
 }

@@ -61,10 +61,10 @@ function renderCard(cardData, userId) {
     handleCardClick: () => {
       imagePopup.open(cardData);
     },
-    handleLikeClick: () => {
+    handleLikeClick: (data) => {
       if (card.isLiked()) {
         api
-          .removeLikes(data._id)
+          .removeLikes(data._cardId)
           .then((response) => {
             card.showLikes(response.likes);
           })
@@ -73,7 +73,7 @@ function renderCard(cardData, userId) {
           });
       } else {
         api
-          .addLikes(data._id)
+          .addLikes(data._cardId)
           .then((response) => {
             card.showLikes(response.likes);
           })
