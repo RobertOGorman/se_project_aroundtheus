@@ -1,4 +1,4 @@
-class Card {
+export default class Card {
   constructor({
     data,
     selector,
@@ -85,13 +85,9 @@ class Card {
     this._deleteButton = this._element.querySelector(".cards__delete");
     this._likeCounter = this._element.querySelector(".cards__like-counter");
 
-    // this._removeDeleteButton();
     this.showLikes(this._likes);
     this._setEventListeners();
-
     this._removeDeleteButton();
     return this._element;
   }
 }
-
-export default Card;
