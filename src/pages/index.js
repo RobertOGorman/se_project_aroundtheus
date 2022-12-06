@@ -4,6 +4,8 @@ import {
   profileEditButton,
   cardAddButton,
   avatarButton,
+  profileNameInput,
+  profileTitleInput,
   validationSettings,
   selectors,
 } from "../utils/constants.js";
@@ -31,9 +33,6 @@ const userInfo = new UserInfo({
   userTitleSelector: selectors.profileTitleElement,
   userAvatarSelector: selectors.avatarImage,
 });
-
-const profileNameInput = document.querySelector(".popup__input_type_name");
-const profileTitleInput = document.querySelector(".popup__input_type_title");
 
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([data, cards]) => {
