@@ -22,9 +22,6 @@ export const selectors = {
   cardTemplate: "#card-template",
   previewPopup: "#preview-popup",
 
-  profileNameInput: ".popup__input_type_name",
-  profileTitleInput: ".popup__input_type_title",
-
   profileEditPopup: "#edit-popup",
   cardAddPopup: "#add-popup",
   profileNameElement: ".profile__name",

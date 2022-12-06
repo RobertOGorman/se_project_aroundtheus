@@ -32,6 +32,9 @@ const userInfo = new UserInfo({
   userAvatarSelector: selectors.avatarImage,
 });
 
+const profileNameInput = document.querySelector(".popup__input_type_name");
+const profileTitleInput = document.querySelector(".popup__input_type_title");
+
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([data, cards]) => {
     userId = data._id;
@@ -204,8 +207,8 @@ avatarButton.addEventListener("click", () => {
 
 profileEditButton.addEventListener("click", () => {
   const { userName, userTitle } = userInfo.getUserInfo();
-  document.querySelector(selectors.profileNameInput).value = userName;
-  document.querySelector(selectors.profileTitleInput).value = userTitle;
+  profileNameInput.value = userName;
+  profileTitleInput.value = userTitle;
   addFormValidator.resetValidation();
   editProfilePopup.open();
 });
