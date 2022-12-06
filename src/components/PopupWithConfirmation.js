@@ -8,7 +8,7 @@ export default class PopupWithConfirmation extends Popup {
     this._popupForm = this._popup.querySelector(".popup__form");
   }
 
-  submitText(submit, submitText = "Saving...") {
+  setSubmitText(submit, submitText = "Saving...") {
     if (submit) {
       this._submitButton.textContent = submitText;
     } else {
@@ -18,11 +18,6 @@ export default class PopupWithConfirmation extends Popup {
 
   confirmDelete(confirmation) {
     this._handleFormSubmit = confirmation;
-  }
-
-  openPopup(confirmation) {
-    super.open();
-    this._confirmDelete = confirmation;
   }
 
   setEventListeners() {

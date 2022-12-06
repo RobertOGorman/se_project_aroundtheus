@@ -32,8 +32,8 @@ const userInfo = new UserInfo({
   userAvatarSelector: selectors.avatarImage,
 });
 
-Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
-  ([data, cards]) => {
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([data, cards]) => {
     userId = data._id;
     userInfo.setUserInfo({
       name: data.name,
@@ -51,8 +51,10 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
       selectors.cardListElement
     );
     cardSection.renderItems();
-  }
-);
+  })
+  .catch((error) => {
+    console.log(`An error has occured ${error}`);
+  });
 
 function renderCard(cardData, userId) {
   const card = new Card({
@@ -85,7 +87,7 @@ function renderCard(cardData, userId) {
 
     handleDeleteClick: (card) => {
       confirmationPopup.confirmDelete(() => {
-        confirmationPopup.submitText(true);
+        confirmationPopup.setSubmitText(true, "Deleting...");
         api
           .deleteCard(card._cardId)
           .then(() => {
@@ -95,7 +97,7 @@ function renderCard(cardData, userId) {
           .catch((error) => {
             console.log(`An error has occured ${error}`);
           })
-          .finally(() => confirmationPopup.submitText(false));
+          .finally(() => confirmationPopup.setSubmitText(false));
       });
       confirmationPopup.open();
     },
@@ -134,7 +136,7 @@ avatarFormValidator.enableValidation();
 const editProfilePopup = new PopupWithForm({
   popupSelector: selectors.profileEditPopup,
   handleFormSubmit: (data) => {
-    editProfilePopup.submitText(true);
+    editProfilePopup.setSubmitText(true);
     api
       .editUserInfo(data)
       .then((data) => {
@@ -144,7 +146,7 @@ const editProfilePopup = new PopupWithForm({
       .catch((error) => {
         console.log(`An error has occured ${error}`);
       })
-      .finally(() => editProfilePopup.submitText(false));
+      .finally(() => editProfilePopup.setSubmitText(false));
   },
 });
 editProfilePopup.setEventListeners();
@@ -152,9 +154,17 @@ editProfilePopup.setEventListeners();
 const newCardPopup = new PopupWithForm({
   popupSelector: selectors.cardAddPopup,
   handleFormSubmit: (cardData) => {
-    api.postCard(cardData).then((data) => {
-      cardSection.addItem(renderCard(data, userId));
-    });
+    newCardPopup.setSubmitText(true, "Creating...");
+    api
+      .postCard(cardData)
+      .then((data) => {
+        cardSection.addItem(renderCard(data, userId));
+        newCardPopup.close();
+      })
+      .catch((error) => {
+        console.log(`An error has occured ${error}`);
+      })
+      .finally(() => newCardPopup.setSubmitText(false));
   },
   resetOnClose: true,
 });
@@ -163,7 +173,7 @@ newCardPopup.setEventListeners();
 const newAvatarPopup = new PopupWithForm({
   popupSelector: selectors.avatarPopupElement,
   handleFormSubmit: (data) => {
-    newAvatarPopup.submitText(true);
+    newAvatarPopup.setSubmitText(true);
     api
       .editAvatar(data)
       .then((data) => {
@@ -171,7 +181,7 @@ const newAvatarPopup = new PopupWithForm({
         newAvatarPopup.close();
       })
       .catch((error) => console.log(`An error has occured ${error}`))
-      .finally(() => newAvatarPopup.submitText(false));
+      .finally(() => newAvatarPopup.setSubmitText(false));
   },
   resetOnClose: true,
 });

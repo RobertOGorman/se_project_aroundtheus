@@ -18,11 +18,11 @@ export default class PopupWithForm extends Popup {
     return formValues;
   }
 
-  open() {
+  close() {
     if (this._resetOnClose) {
       this._popupForm.reset();
     }
-    super.open();
+    super.close();
   }
 
   setEventListeners() {
@@ -30,14 +30,11 @@ export default class PopupWithForm extends Popup {
       event.preventDefault();
 
       this._handleFormSubmit(this._getInputValues());
-
-      this.close();
-      this._popupForm.reset();
     });
     super.setEventListeners();
   }
 
-  submitText(submit, submitText = "Saving...") {
+  setSubmitText(submit, submitText = "Saving...") {
     if (submit) {
       this._submitButton.textContent = submitText;
     } else {
